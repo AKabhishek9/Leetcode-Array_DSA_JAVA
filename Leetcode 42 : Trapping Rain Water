@@ -1,0 +1,26 @@
+class Solution {
+    public int trap(int[] height) {
+        int leftPtr = 0;
+        int rightPtr = height.length - 1;
+        int leftMax = 0; 
+        int rightMax = 0;
+        int cnt = 0;
+        while(leftPtr < rightPtr){
+            if(height[leftPtr] > leftMax){
+                leftMax = Math.max(height[leftPtr], leftMax);
+            }
+            if(height[rightPtr] > rightMax){
+                rightMax = Math.max(height[rightPtr], rightMax);
+            }
+            if(leftMax < rightMax){
+                cnt+=leftMax - height[leftPtr];
+                leftPtr++;
+            }
+            else{
+                cnt+=rightMax - height[rightPtr];
+                rightPtr--;
+            }
+        }
+        return cnt;
+    }
+}
