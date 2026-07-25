@@ -1,3 +1,4 @@
+// Approach 1--------------------------------------------------------(Using Queue TC = 2ms)
 class Solution {
     public int countStudents(int[] students, int[] sandwiches) {
         Queue<Integer> q = new ArrayDeque<>();
@@ -25,5 +26,39 @@ class Solution {
             }
         }// return students unable to eat
         return q.size();
+    }
+}
+
+// Approach 2 -----------------------------------------------------------------(BEST TC = 0ms)
+class Solution {
+    public int countStudents(int[] students, int[] sandwiches) {
+        int likes0 = 0;
+        int likes1 = 0;
+        // find total 0's and 1's
+        for(int i = 0; i < students.length; i++){
+            if(students[i] == 0){
+                likes0++;
+            }
+            else{
+                likes1++;
+            }
+        }
+        for(int i = 0; i < sandwiches.length; i++){
+            if(sandwiches[i] == 0){
+                // no student left who likes 0
+                if(likes0 == 0){
+                    return likes1;
+                }
+                likes0--;
+            }
+            if(sandwiches[i] == 1){
+                // no student left who likes 1
+                if(likes1 == 0){
+                    return likes0;
+                }
+                likes1--;
+            }
+        }
+        return 0;
     }
 }
