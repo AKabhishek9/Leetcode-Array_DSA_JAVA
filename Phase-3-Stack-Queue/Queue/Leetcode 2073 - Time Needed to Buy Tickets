@@ -1,0 +1,27 @@
+class Solution {
+    public int timeRequiredToBuy(int[] tickets, int k) {
+        Queue<int[]>q = new ArrayDeque<>();
+        // add all the req. tickets with person in the queue
+        for(int i = 0; i < tickets.length; i++){
+            q.offer(new int[]{i, tickets[i]});
+        }
+        int time = 0;
+        while(!q.isEmpty()){
+            int[] person = q.poll();
+            person[1]--;
+            time++;
+
+            if(person[1] == 0){
+                // check that k'th person get all the tickets
+                if(person[0] == k){
+                    return time;
+                }
+            }
+            // add if person could not get all the tickets 
+            else{
+                q.offer(person);
+            }
+        }
+        return time;
+    }
+}
