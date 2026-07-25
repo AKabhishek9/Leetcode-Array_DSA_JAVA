@@ -23,8 +23,9 @@ I have organized all the questions into different phases so it is easy to practi
 
 * **Phase 3 - Stack & Queue**
   * Stack
+    - Monotonic Stack
   * Queue
-  * Monotonic Stack
+  
 
 * **Phase 4 - Linked Lists & Trees**
   * Linked List
