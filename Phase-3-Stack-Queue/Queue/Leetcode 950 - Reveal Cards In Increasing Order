@@ -1,0 +1,25 @@
+// Approach 1 (Brute Force) --------------------------------------------(TC = 7ms)
+class Solution {
+    public int[] deckRevealedIncreasing(int[] deck) {
+        int sortedArr[] = deck.clone();
+        Arrays.sort(sortedArr);
+        boolean skip = false;
+        int i = 0;
+        int j = 0;
+        int ans[] = new int[deck.length];
+        while(i < deck.length){
+            // if current value is 0
+            if(ans[j] == 0){
+                // add elements alternatively from the sorted array
+                if(skip == false){
+                    ans[j] = sortedArr[i];
+                    i++;
+                }
+                skip = !skip; // alternate 
+            }
+            // circular array rotation
+            j = (j+1)%deck.length;
+        }
+        return ans;
+    }
+}
