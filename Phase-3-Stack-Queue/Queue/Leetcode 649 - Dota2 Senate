@@ -1,0 +1,33 @@
+class Solution {
+    public String predictPartyVictory(String senate) {
+        Queue<Integer> rCnt = new ArrayDeque<>();
+        Queue<Integer> dCnt = new ArrayDeque<>();
+        // add count of 'R' and 'D' in diff. Queue
+        for(int i = 0; i < senate.length(); i++){
+            if(senate.charAt(i) == 'R'){
+                rCnt.offer(i);
+            }
+            else{
+                dCnt.offer(i);
+            }
+        }
+        while(!rCnt.isEmpty() && !dCnt.isEmpty()){
+            int R = rCnt.poll();
+            int D = dCnt.poll();
+            // check which one is eleminate 
+            // and push back winner in queue
+            if (R < D){
+                rCnt.offer(R + senate.length());
+            } 
+            else{
+                dCnt.offer(D + senate.length());
+            }
+        } 
+        if(rCnt.size() == 0){
+            return "Dire";
+        }
+        else{
+            return "Radiant";
+        }
+    }
+}
