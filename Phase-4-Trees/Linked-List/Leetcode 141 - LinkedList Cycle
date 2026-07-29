@@ -9,6 +9,41 @@
  *     }
  * }
  */
+// Approach 1 -----------------------------------------------(TC = 8ms)
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        HashMap<ListNode, Integer> mp = new HashMap<>();
+        ListNode temp = head;
+
+        while(temp != null){
+            // if node not found put it into the Map
+            if(!mp.containsKey(temp)){
+                mp.put(temp, 1);
+            }
+            // cycle detected
+            else{
+                return true;
+            }
+            // moveto next node
+            temp = temp.next;
+        }
+        // no cycle is detected 
+        return false;
+    }
+}
+
+// Approach 2 -----------------------------------------------(BEST TC = 0ms)
 public class Solution {
     public boolean hasCycle(ListNode head) {
         ListNode fast = head;
