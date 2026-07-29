@@ -46,16 +46,22 @@ public class Solution {
 // Approach 2 -----------------------------------------------(BEST TC = 0ms)
 public class Solution {
     public boolean hasCycle(ListNode head) {
-        ListNode fast = head;
-        ListNode slow = head;
-        while(fast != null && fast.next != null){
-            slow = slow.next;
-            fast = fast.next.next;
+        if(head == null || head.next == null){
+            return false;
+        }
 
-            if(fast == slow){
+        ListNode temp = head;
+        ListNode slow = temp.next;
+        ListNode fast = temp.next.next;
+        while(fast != null && fast.next != null){
+            // comes at same node
+            if(slow == fast){
                 return true;
             }
+            slow = slow.next;
+            fast = fast.next.next;
         }
+        // no cycle is detected 
         return false;
     }
 }
