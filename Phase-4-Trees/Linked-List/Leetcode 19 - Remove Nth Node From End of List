@@ -8,6 +8,8 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
+// Approach 1 --------------------------------------------------------(TC = 0ms)
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode temp = head;
@@ -32,4 +34,29 @@ class Solution {
         return head;
     }
 }
-    
+
+// Approach 2 --------------------------------------------------------------(TC = 0ms)
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode temp = head;
+        ListNode fast = head;
+        ListNode slow = head;
+        // move fast ptr to nth node
+        for(int i = 0; i < n; i++){
+            fast = fast.next;
+        }
+        // if head is the nth node
+        if (fast == null) {
+            return head.next;
+        }
+        // move both ptr until fast reaches to end node
+        while(fast.next != null){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        // delete nth node
+        // slow stops just before the nth node
+        slow.next = slow.next.next;
+        return head;
+    }
+}
