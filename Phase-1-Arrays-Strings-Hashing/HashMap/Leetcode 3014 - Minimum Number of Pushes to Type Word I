@@ -1,0 +1,21 @@
+// Approach 1 -------------------------------------------------(TC = 2ms)
+class Solution {
+    public int minimumPushes(String word) {
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        int key = 2;
+        int ans = 0;
+        for(int i = 0; i < word.length(); i++){
+            if(key > 9){
+                // reset button if char.length is > 8
+                key = 2;
+            }
+            // assign key to map ur increase no. of push
+            mp.put(key, mp.getOrDefault(key, 0)+1);
+            // add no. of push
+            ans += mp.get(key);
+            // change the key 
+            key++;
+        }
+        return ans;
+    }
+}
