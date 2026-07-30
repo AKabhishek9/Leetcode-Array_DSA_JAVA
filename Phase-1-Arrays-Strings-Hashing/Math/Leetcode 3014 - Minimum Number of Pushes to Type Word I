@@ -1,0 +1,15 @@
+// Approach 1 -------------------------------(TC = 2ms)
+ Phase-1-Arrays-Strings-Hashing/HashMap/Leetcode 3014 - Minimum Number of Pushes to Type Word I
+
+// Approach 2 ---------------------------------(BEST TC = 0ms)
+class Solution {
+    public int minimumPushes(String word) {
+        int pushes = 0;
+
+        for (int i = 0; i < word.length(); i++) {
+            // add no. of pushes
+            pushes += (i / 8) + 1;
+        }
+        return pushes;
+    }
+}
