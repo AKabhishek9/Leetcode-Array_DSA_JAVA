@@ -1,0 +1,21 @@
+class Solution {
+    public int minimumPushes(String word) {
+        int freq[] = new int[26];
+        // find the freq. of char 
+        for(char ch : word.toCharArray()){
+            freq[ch - 'a']++;
+        }
+        Arrays.sort(freq);
+        int ans = 0;
+        int idx = 0;
+        // traverse from back because after sorting array becomes
+        // 0, 0, 1, 1, 2, 8
+        for(int i = 25; i >= 0; i--){
+            int cnt = freq[i];
+            int pressCnt = (idx/8)+1;
+            ans += cnt*pressCnt;
+            idx++;
+        }
+        return ans;
+    }
+}
