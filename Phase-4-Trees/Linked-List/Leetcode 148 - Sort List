@@ -32,3 +32,56 @@ class Solution {
         return dummy.next;
     }
 }
+
+// Approach 2 --------------------------------------------------------------------(BEST TC = 9ms)
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        // find mid node of the LL to split it
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode mid = slow.next;
+        slow.next = null;
+        // use recursion until only 1 1 node is left in lift side and right side
+        ListNode leftSide = sortList(head);
+        ListNode rightSide = sortList(mid);
+        // call merge func. to merge in sorted order
+        return mergeTwoList(leftSide, rightSide);
+    }
+    // helper function to perform merge operation
+    public ListNode mergeTwoList(ListNode l1, ListNode l2){
+        if(l1 == null){
+            return l2;
+        }
+        if(l2 == null){
+            return l1;
+        }
+
+        ListNode dummy = new ListNode(-1);
+        ListNode curr = dummy;
+        while(l1 != null && l2 != null){
+            if(l1.val <= l2.val){
+                curr.next = l1;
+                l1 = l1.next;
+            }
+            else{
+                curr.next = l2;
+                l2 = l2.next;
+            }
+            curr = curr.next;
+        }
+        if(l1 != null){
+            curr.next = l1;
+        }
+        if(l2 != null){
+            curr.next = l2;
+        }
+        return dummy.next;
+    }
+}
