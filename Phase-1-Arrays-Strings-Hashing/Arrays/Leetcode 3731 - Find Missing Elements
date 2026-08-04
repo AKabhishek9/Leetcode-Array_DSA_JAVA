@@ -1,0 +1,45 @@
+// Approach 1 ------------------------------------------------------(TC = 6ms)
+class Solution {
+    public List<Integer> findMissingElements(int[] nums) {
+        Arrays.sort(nums);
+        int currNum = nums[0];
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            // check current num present in the array
+            while(currNum < nums[i]){
+                // if not add to list
+                ans.add(currNum);
+                currNum++;
+            }
+            // if current num is present increase current num
+            currNum = nums[i]+1;
+        }
+        return ans;
+    }
+}
+
+// Approach 2 -------------------------------------------------------(BEST TC = 2ms)
+class Solution {
+    public List<Integer> findMissingElements(int[] nums) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        int s = Integer.MAX_VALUE;
+        int l = Integer.MIN_VALUE;
+        // find the range of the array
+        for(int i = 0; i < nums.length; i++){
+            s = Math.min(s, nums[i]);
+            l = Math.max(l, nums[i]);
+        }
+        // mark +1 to all the present elements
+        int arr[] = new int[l+1];
+        for(int i = 0; i < nums.length; i++){
+            arr[nums[i]]++;
+        }
+        // if any element if not marked +1 add to ans
+        for(int i = s+1; i < l; i++){
+            if(arr[i] == 0){
+                ans.add(i);
+            }
+        }
+        return ans;
+    }
+}
