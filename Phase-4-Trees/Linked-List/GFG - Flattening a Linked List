@@ -1,0 +1,35 @@
+/* Structure of Linked List Node
+class Node {
+    int data;
+    Node next;
+    Node bottom;
+
+    Node(int x) {
+        data = x;
+        next = null;
+        bottom = null;
+    }
+}*/
+
+class Solution {
+    public Node flatten(Node head) {
+        ArrayList<Integer> list = new ArrayList<>();
+        Node temp = head;
+        while(temp != null){
+            Node curr = temp;
+            while(curr != null){
+                list.add(curr.data);
+                curr = curr.bottom;
+            }
+            temp = temp.next;
+        }
+        Collections.sort(list);
+        Node dummy = new Node(0);
+        Node temp2 = dummy;
+        for(int i = 0; i < list.size(); i++){
+            temp2.bottom = new Node(list.get(i));
+            temp2 = temp2.bottom;
+        }
+        return dummy.bottom;
+    }
+}
