@@ -1,0 +1,21 @@
+class Solution {
+    // helper function to get digit product of a number
+    private int digitProd(int num){
+        int prod = 1;
+        while(num != 0){
+            prod *= (num%10);
+            num /= 10;
+        }
+        return prod;
+    }
+    public int smallestNumber(int n, int t) {
+        while(true){
+            // check req. condition
+            if(digitProd(n)%t == 0){
+                return n;
+            }
+            // if condition not satisfied increase n
+            n++;
+        }
+    }
+}
