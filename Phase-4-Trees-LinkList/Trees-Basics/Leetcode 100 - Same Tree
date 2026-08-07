@@ -13,6 +13,58 @@
  *     }
  * }
  */
+
+// Approach 1 (BFS) ----------------------------------------------(TC = 0ms)
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null){
+            return true;
+        }
+        if(p == null || q == null){
+            return false;
+        }
+        
+        Queue<TreeNode> q1 = new LinkedList<>();
+        Queue<TreeNode> q2 = new LinkedList<>();
+        // add root node of both tree in queue
+        q1.offer(p);
+        q2.offer(q);
+
+        while(!q1.isEmpty() && !q2.isEmpty()){
+            TreeNode temp1 = q1.poll();
+            TreeNode temp2 = q2.poll();
+
+            if(temp1.val != temp2.val){
+                return false;
+            }
+
+            // check left node in both trees
+            if(temp1.left != null && temp2.left != null){
+                // add to queue
+                q1.offer(temp1.left);
+                q2.offer(temp2.left);
+            }
+            // if left node not found in anyone of the tree
+            else if(temp1.left != null || temp2.left != null){
+                return false;
+            }
+
+            // similarly, check right node in both trees
+            if(temp1.right != null && temp2.right != null){
+                // add to queue
+                q1.offer(temp1.right);
+                q2.offer(temp2.right);
+            }
+            // if right node not found in anyone of the tree
+            else if(temp1.right != null || temp2.right != null){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+// Approach 2 (Recursion) ----------------------------------------(TC = 0ms)
 class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if(p == null & q == null){
