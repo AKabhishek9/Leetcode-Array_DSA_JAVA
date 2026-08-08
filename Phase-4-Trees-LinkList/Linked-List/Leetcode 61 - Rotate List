@@ -8,6 +8,8 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
+// Approach 1 (Brute Force) -----------------------------------------------------(WORST TC = 1ms)
 class Solution {
     // helper function to reverse array
     private void reverseArr(ArrayList<ListNode> nums, int start, int end){
@@ -48,5 +50,42 @@ class Solution {
         list.get(n-1).next = null;
 
         return list.get(0);
+    }
+}
+
+// Approach 2 ---------------------------------------------------------------(BEST TC = 0ms)
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode temp = head;
+        int len = 1;
+        // find the length of the node
+        while(temp.next != null){
+            temp = temp.next;
+            len++;
+        }
+        // Avoid unnecessary rotations
+        k = k % len;
+        if (k == 0) {
+            return head;
+        }
+        // link last node to root node
+        temp.next = head;
+
+        temp = head;
+        int currIdx = 1;
+        // move to node from where the cycle has to be break
+        while(currIdx < len-k){
+            temp = temp.next;
+            currIdx++;
+        }
+        // set next node as NewHead
+        ListNode newHead = temp.next;
+        // break pointer to next node
+        temp.next = null;
+        // return new head
+        return newHead;
     }
 }
