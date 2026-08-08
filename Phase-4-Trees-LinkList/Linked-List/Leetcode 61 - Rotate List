@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    // helper function to reverse array
+    private void reverseArr(ArrayList<ListNode> nums, int start, int end){
+        while(start < end){
+            ListNode temp = nums.get(start);
+            nums.set(start, nums.get(end));
+            nums.set(end, temp);
+            start++;
+            end--;
+        }
+    }
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ArrayList<ListNode> list = new ArrayList<>();
+        ListNode temp = head;
+        // add nodes to the array
+        while(temp != null){
+            list.add(temp);
+            temp = temp.next;
+        }
+
+        int n = list.size();
+        int rotate = k%n;
+        // reverse the whole array
+        reverseArr(list, 0, n-1);
+        // reverse the array before k index
+        reverseArr(list, 0, rotate-1);
+        // reverse the array after k index
+        reverseArr(list, rotate, n-1);
+
+        // connect the node 
+        for(int i = 0; i < n-1; i++){
+            list.get(i).next = list.get(i+1);
+        }
+        // set lastNode.next 
+        list.get(n-1).next = null;
+
+        return list.get(0);
+    }
+}
