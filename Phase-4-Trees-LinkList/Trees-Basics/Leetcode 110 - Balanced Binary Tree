@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+// Approach 1 ------------------------------------------------------(TC = 1ms)
+class Solution {
+    // helper function to return height of the tree
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+        return 1+(Math.max(leftHeight, rightHeight));
+    }
+    public boolean isBalanced(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        // check height of left and right node
+        int heightLeft = maxDepth(root.left);
+        int heightRight = maxDepth(root.right);
+        // if height diff. return false
+        if(Math.abs(heightLeft - heightRight) > 1){
+            return false;
+        }
+        // use recursion to check left and right side of the root
+        return (isBalanced(root.left) &&
+                isBalanced(root.right));
+    }
+}
+
+// Approach 2 ----------------------------------------------------------(BEST TC = 0ms)
+class Solution {
+    // helper function to return height of the tree
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+        // if anyone of the side is unbalanced
+        if(leftHeight == -1 || rightHeight == -1){
+            return -1;
+        }
+        // if height diff. is greater than 1
+        if(Math.abs(leftHeight-rightHeight) > 1){
+            return -1;
+        }
+        // return height after storing height recursively 
+        return 1+(Math.max(leftHeight, rightHeight));
+    }
+    public boolean isBalanced(TreeNode root) {
+        int height = maxDepth(root);
+        // function gives -1 means unbalanced
+        if(height == -1){
+            return false;
+        }
+        return true;
+    }
+}
