@@ -1,0 +1,23 @@
+class Solution {
+    public int missingInteger(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        // add all the elements to hashset
+        for(int i = 0; i < nums.length; i++){
+            set.add(nums[i]);
+        }
+        int prefixSum = nums[0];
+        // check the longest sequential prefix 
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] == nums[i-1]+1){
+                prefixSum += nums[i];
+            }
+            else break;
+        }
+        // if prefix found int hashset increase prefix sum
+        while(set.contains(prefixSum)){
+            prefixSum++;
+        }
+        // return if value not found
+        return prefixSum;
+    }
+}
