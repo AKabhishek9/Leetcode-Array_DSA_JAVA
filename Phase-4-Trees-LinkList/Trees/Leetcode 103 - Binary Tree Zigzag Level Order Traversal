@@ -13,6 +13,8 @@
  *     }
  * }
  */
+
+// Approach 1 -------------------------------------------------------(TC = 1ms)
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         ArrayList<List<Integer>> listMain = new ArrayList<>();
@@ -40,6 +42,43 @@ class Solution {
             // reverse the current list items alternately
             if(zigZag % 2 == 0){
                 Collections.reverse(list);
+            }
+            listMain.add(list);
+            zigZag++;
+        }
+        return listMain;
+    }
+}
+
+// Approach 2 (Using LinkedList)-----------------------------------------------(BEST TC = 0ms)
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        LinkedList<List<Integer>> listMain = new LinkedList<>();
+        if(root == null){
+            return listMain;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int zigZag = 1;
+        while(!q.isEmpty()){
+            int size = q.size();
+            LinkedList<Integer> list = new LinkedList<>();
+            // add nodes in level order 
+            while(size > 0){
+                TreeNode temp = q.poll();
+                if(zigZag%2 == 0){ // even level
+                    list.addFirst(temp.val);
+                }
+                else{ // odd level
+                    list.add(temp.val);
+                }
+                if(temp.left != null){
+                    q.offer(temp.left);
+                }
+                if(temp.right != null){
+                    q.offer(temp.right);
+                }
+                size--;
             }
             listMain.add(list);
             zigZag++;
