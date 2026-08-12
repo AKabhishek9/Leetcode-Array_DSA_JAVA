@@ -1,0 +1,90 @@
+// Approach 1 ---------------------------------------------------(TC = 69)
+class Solution {
+    public int maxSubarrayLength(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        int i = 0;
+        int j = 0;
+
+        while(j < nums.length){
+            // check element is present or not than increase its count
+            map.put(nums[j], map.getOrDefault(nums[j], 0)+1);
+            // remove element from the window if count of element is greater than k
+            while(map.get(nums[j]) > k){
+                map.put(nums[i], map.get(nums[i]) -1);
+                // reduce size of the window from left
+                i++;
+            }
+            // store max lenght of window
+            ans = Math.max(ans, j-i+1);
+            j++;
+        }
+        return  ans;
+    }
+}
+
+// Approach 2 -----------------------------------------------------------(TC = 67ms)
+class Solution {
+    public int maxSubarrayLength(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        int i = 0;
+        int j = 0;
+        int thatElement = 0;
+
+        while(j < nums.length){
+            // check element is present or not than increase its count
+            map.put(nums[j], map.getOrDefault(nums[j], 0)+1);
+            // Current element became invalid
+            if(map.get(nums[j]) == k+1){
+                thatElement++;
+            }
+            // remove element from the window if an invalid element exists
+            if(thatElement > 0){
+                map.put(nums[i], map.get(nums[i]) -1);
+                // element becomes valid again
+                if(map.get(nums[i]) == k){
+                    thatElement--;
+                }
+                // reduce size of the window from left
+                i++;
+            }
+            // Store longest valid window
+            if(thatElement == 0){
+                ans = Math.max(ans, j - i + 1);
+            }
+            j++;
+        }
+        return  ans;
+    }
+}
+
+// Approach 3 ----------------------------------------------------------------------------(TC = 64ms)
+class Solution {
+    public int maxSubarrayLength(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        int i = 0;
+        int j = 0;
+
+        while(j < nums.length){
+            // check element is present or not than increase its count
+            map.put(nums[j], map.getOrDefault(nums[j], 0)+1);
+            // remove element from the window if count of element is greater than k
+            if(map.get(nums[j]) > k){
+                // remove elements from left until current element is found
+                while(nums[i] != nums[j]){
+                    map.put(nums[i], map.get(nums[i]) - 1);
+                    i++;
+                }
+                map.put(nums[i], map.get(nums[i]) -1);
+                // reduce size of the window from left
+                i++;
+            }
+            // store max lenght of window
+            ans = Math.max(ans, j-i+1);
+            j++;
+        }
+        return  ans;
+    }
+}
