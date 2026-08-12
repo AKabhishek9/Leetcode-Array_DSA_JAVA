@@ -1,0 +1,23 @@
+class Solution {
+    public int maxSubarrayLength(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        int i = 0;
+        int j = 0;
+
+        while(j < nums.length){
+            // check element is present or not than increase its count
+            map.put(nums[j], map.getOrDefault(nums[j], 0)+1);
+            // remove element from the window if count of element is greater than k
+            while(map.get(nums[j]) > k){
+                map.put(nums[i], map.get(nums[i]) -1);
+                // reduce size of the window from left
+                i++;
+            }
+            // store max lenght of window
+            ans = Math.max(ans, j-i+1);
+            j++;
+        }
+        return  ans;
+    }
+}
