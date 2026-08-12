@@ -1,0 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+// Approach 1 (Using BFS) -------------------------------------------------(TC = 1ms)
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int height = 1;
+        while(!q.isEmpty()){
+            int size = q.size();
+            while(size > 0){
+                TreeNode temp = q.poll();
+                // if this is the last node of current level
+                if(size == 1){
+                    res.add(temp.val);
+                }
+                // check for left child
+                if(temp.left != null){
+                    q.offer(temp.left);
+                }
+                // check for right child
+                if(temp.right != null){
+                    q.offer(temp.right);
+                }
+                size--;
+            }
+            height++;
+        }
+        return res;
+    }
+}
+
+// Approach 2 (Using DFS) --------------------------------------------------------------(TC = 0ms)
+class Solution {
+    private void dfs(TreeNode root, int depth, ArrayList<Integer> list){
+        if(root == null){
+            return;
+        }
+        // first node visited at this depth is visible from right side
+        if(list.size() == depth){
+            list.add(root.val);
+        }
+        // Visit right side first  
+        dfs(root.right, depth+1, list);
+        // than left side
+        dfs(root.left, depth+1, list);
+    }
+    public List<Integer> rightSideView(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<>();
+        dfs(root, 0, list);
+        return list;
+    }
+}
