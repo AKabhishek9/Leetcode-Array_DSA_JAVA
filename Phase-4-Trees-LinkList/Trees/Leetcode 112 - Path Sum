@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private boolean dfs(TreeNode root, int tar, int sum){
+        if(root == null){
+            return false;
+        }
+        // cal. sum of each visited node
+        sum += root.val;
+        // reached to leaf node
+        if(root.left == null && root.right == null){
+            // if target found
+            if(sum == tar){
+                return true;
+            }
+            return false;
+        }
+
+        boolean left = dfs(root.left, tar, sum);
+        boolean right = dfs(root.right, tar, sum);
+
+        // if anyone of the side return true 
+        return left || right;
+    }
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        // use dfs
+        boolean res = dfs(root,targetSum, 0);
+        return res;
+    }
+}
