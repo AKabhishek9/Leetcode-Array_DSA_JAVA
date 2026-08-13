@@ -13,6 +13,48 @@
  *     }
  * }
  */
+
+// Approach 1 (Using BFS) ---------------------------------------------(TC = 2ms)
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        Queue<TreeNode> q = new LinkedList<>();
+        Queue<Integer> sum = new LinkedList<>();
+
+        if(root == null){
+            return false;
+        }
+        // add root node to queue
+        q.offer(root);
+        // add val. of root node 
+        sum.offer(root.val);
+        while(!q.isEmpty()){
+            TreeNode temp = q.poll();
+            int currSum = sum.poll();
+            // check target is found
+            if(temp.left == null && temp.right == null){
+                if(currSum == targetSum){
+                    return true;
+                }
+            }
+            // add left node to queue
+            if(temp.left != null){
+                q.offer(temp.left);
+                // increment sum be val. of left node
+                sum.offer(currSum+temp.left.val);
+            }
+            // add right node to queue
+            if(temp.right != null){
+                q.offer(temp.right);
+                // increment sum be val. of right node
+                sum.offer(currSum+temp.right.val);
+            }
+            // after that check again, until all leaf node are visited
+        }
+        return false;
+    }
+}
+
+// Approach 2 (Using DFS) ----------------------------------------------(BEST TC = 0ms)
 class Solution {
     private boolean dfs(TreeNode root, int tar, int sum){
         if(root == null){
