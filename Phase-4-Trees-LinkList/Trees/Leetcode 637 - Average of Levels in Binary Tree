@@ -1,0 +1,93 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+// Approach 1 (Using BFS) --------------------------------------------------------------(TC = 3ms)
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        ArrayList<Double> list = new ArrayList<>();
+        if(root == null){
+            return list;
+        }
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        // add null to mark level ends
+        q.offer(null);
+        // BFS
+        while(!q.isEmpty()){
+            long sum = 0;
+            int noOfNodes = 0;
+            while(q.peek() != null){
+                // cal. sum and no. of nodes until null not found
+                TreeNode temp = q.poll();
+                sum += temp.val;
+                noOfNodes++;
+
+                if(temp.left != null){
+                    q.offer(temp.left);
+                }
+                if(temp.right != null){
+                    q.offer(temp.right);
+                }
+            }
+            // add to list after taking avg.
+            list.add((double) sum/noOfNodes);
+            // remove current level marker
+            q.poll();
+
+            // add marker only if another level exists
+            if(!q.isEmpty()){
+                q.offer(null);
+            }
+        }
+        return list;
+    }
+}
+
+// Approach 2 (Using DFS)----------------------------------------------------------------(BEST TC = 1ms)
+class Solution {
+    private void dfs(TreeNode root, int depth, ArrayList<Double> sum, 
+                    ArrayList<Integer> noOfNodes){
+        if(root == null){
+            return;
+        }
+        // visiting this depth for the first time
+        if(depth == sum.size()){
+            sum.add((double) root.val);
+          noOfNodes.add(1);
+        }
+        else{
+          sum.set(depth, sum.get(depth)+root.val);
+          noOfNodes.set(depth, noOfNodes.get(depth) +1);
+        }
+
+        dfs(root.left, depth+1, sum, noOfNodes);
+        dfs(root.right, depth+1, sum, noOfNodes);
+    }
+
+    public List<Double> averageOfLevels(TreeNode root) {
+        ArrayList<Integer> noOfNodes = new ArrayList<>();
+        ArrayList<Double> sum = new ArrayList<>();
+        ArrayList<Double> ans = new ArrayList<>();
+
+        dfs(root, 0, sum, noOfNodes);
+        // cal. avg sum of nodes according to level
+        for(int i = 0; i < sum.size(); i++){
+            ans.add(sum.get(i)/noOfNodes.get(i)); 
+        }
+        return ans;
+    }
+}
