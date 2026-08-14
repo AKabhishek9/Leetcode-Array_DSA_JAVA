@@ -1,0 +1,28 @@
+// Approach 1 --------------------------------------------------(BEST TC = 1ms)
+class Solution {
+    public int maximumLengthSubstring(String s) {
+        int freq[] = new int[26];
+        int i = 0;
+        int j = 0;
+        int ans = 0;
+        int length = 0;
+
+        while(j < s.length()){
+            // increase the count of char
+            freq[s.charAt(j) - 'a']++;
+            length++;
+            // if a char count is more than 2
+            while(freq[s.charAt(j)- 'a'] > 2){
+                // remove char from left side
+                freq[s.charAt(i) - 'a']--;
+                // and reduce the size of the window
+                i++;
+                length--;
+            }
+            // store the max length of the window
+            ans = Math.max(ans, length);
+            j++;
+        }
+        return ans;
+    }
+}
