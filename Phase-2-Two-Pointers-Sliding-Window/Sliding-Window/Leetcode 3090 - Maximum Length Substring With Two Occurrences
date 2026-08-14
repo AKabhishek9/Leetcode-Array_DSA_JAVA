@@ -1,4 +1,35 @@
-// Approach 1 --------------------------------------------------(BEST TC = 1ms)
+// Approach 1 ---------------------------------------------------(TC = 2ms)
+class Solution {
+    public int maximumLengthSubstring(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        int i = 0;
+        int j = 0;
+        int ans = 0;
+        int length = 0;
+
+        while(j < s.length()){
+            char ch = s.charAt(j);
+            // add count of char at index j
+            map.put(ch, map.getOrDefault(ch, 0)+1);
+            length++;
+            // if count of a char is more than 2
+            while(map.get(ch) > 2){
+                char charLeft = s.charAt(i);
+                // remove char from index i
+                map.put(charLeft, map.get(charLeft)-1);
+                length--;
+                // reduce the size of the window 
+                i++;
+            }
+            // store max length of window
+            ans = Math.max(ans, length);
+            j++;
+        }
+        return ans;
+    }
+}
+
+// Approach 2 --------------------------------------------------(BEST TC = 1ms)
 class Solution {
     public int maximumLengthSubstring(String s) {
         int freq[] = new int[26];
