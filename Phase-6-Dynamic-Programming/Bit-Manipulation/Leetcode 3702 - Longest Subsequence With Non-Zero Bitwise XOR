@@ -1,0 +1,24 @@
+class Solution {
+    public int longestSubsequence(int[] nums) {
+        int XOR = 0;
+        boolean zero = false;
+        // find XOR 
+        for(int i = 0; i < nums.length; i++){
+            XOR ^= nums[i];
+            // check if there is at least one non-zero element
+            if(nums[i] != 0){
+                zero = true;
+            }
+        }
+        // if overall element's XOR, not gives 0 
+        if(XOR != 0){
+            return nums.length;
+        }
+        // if an element creates 0 then remove 1 element 
+        // because only 1 element cause overall 0
+        if(zero){
+            return nums.length-1;
+        }
+        return 0;
+    }
+}
