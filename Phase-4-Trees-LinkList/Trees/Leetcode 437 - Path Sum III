@@ -1,0 +1,74 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+// Approach 1 ------------------------------------------------------(TC = 5ms)
+class Solution {
+    int ans = 0;
+    private void dfs(TreeNode root, ArrayList<Integer> list, int target){
+        if(root == null){
+            return;
+        }
+        list.add(root.val);
+        long sum = 0;
+        // check all downward paths ending at current node
+        for(int i = list.size()-1; i >= 0; i--){
+            sum += list.get(i);
+            if(sum == target){
+                ans++;
+            }
+        }
+        // recusively go to left and right node
+        dfs(root.left, list, target);
+        dfs(root.right, list, target);
+        // remove current node while going back
+        list.remove(list.size() -1);
+    }
+    public int pathSum(TreeNode root, int targetSum) {
+        ArrayList<Integer> list = new ArrayList<>();
+        dfs(root, list, targetSum);
+        return ans;
+    }
+}
+
+// Approach 2 ------------------------------------------------------(BEST TC = 3ms)
+class Solution {
+    HashMap<Long, Integer> map = new HashMap<>();
+    int ans = 0;
+    private void dfs(TreeNode root, long sum, int target){
+        if(root == null){
+            return;
+        }
+
+        sum = sum + root.val;
+        // check if a path with target sum exists
+        ans = ans + map.getOrDefault(sum-target, 0);
+        // store current prefix sum
+        map.put(sum, map.getOrDefault(sum, 0)+1);
+
+        // recusively go to left and right node
+        dfs(root.left, sum, target);
+        dfs(root.right, sum, target);
+        // remove current prefix sum while going back
+        map.put(sum, map.get(sum)-1);
+    }
+    public int pathSum(TreeNode root, int targetSum) {
+        ArrayList<Integer> list = new ArrayList<>();
+        // empty path with sum 0
+        map.put(0L, 1);
+        dfs(root, 0L, targetSum);
+        return ans;
+    }
+}
