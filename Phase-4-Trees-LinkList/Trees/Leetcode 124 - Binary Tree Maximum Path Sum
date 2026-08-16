@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+// Approach 1 ----------------------------------------------------------(TC = 1ma)
+class Solution {
+    int maxSum;
+    private int dfs(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        // make sure to ignore negative value
+        int left = Math.max(0, dfs(root.left));
+        int right = Math.max(0, dfs(root.right));
+
+        // found curent tree path using both left and right
+        int treeBelow = left+right+root.val;  // step 1
+        // check left and right path which one gives max
+        int eitherLeftRight = Math.max(left, right) + root.val;   //step 2 
+        // if root is max
+        int rootVal = root.val;  // step 3
+
+        // find path which gives max
+        maxSum = Math.max(maxSum, treeBelow);
+        maxSum = Math.max(maxSum, eitherLeftRight);
+        maxSum = Math.max(maxSum, rootVal);
+
+        // return only one side to parent which one gives max 
+        return eitherLeftRight;   // most important returns the better one-sided path
+    }
+    public int maxPathSum(TreeNode root) {
+        maxSum = Integer.MIN_VALUE;
+        dfs(root);
+        return maxSum;
+    }
+}
+
+// Approach 2 -----------------------------------------------------------------------(BEST TC = 0ms)
+class Solution {
+    int maxSum = Integer.MIN_VALUE;
+    private int dfs(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+
+        // take max node recursively
+        int left = Math.max(0, dfs(root.left));
+        int right = Math.max(0, dfs(root.right));
+
+        // check current current tree for max value
+        int foundGood = left+right+root.val;
+        maxSum = Math.max(maxSum, foundGood);
+
+        // return one path which gives max value
+        return root.val + Math.max(left, right);
+    }
+    public int maxPathSum(TreeNode root) {
+        dfs(root);
+        return maxSum;
+    }
+}
