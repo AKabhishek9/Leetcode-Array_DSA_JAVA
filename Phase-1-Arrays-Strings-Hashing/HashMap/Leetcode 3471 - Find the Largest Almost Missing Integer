@@ -1,0 +1,81 @@
+// Approach 1 --------------------------------------------------------(TC = 2ms)
+class Solution {
+    public int largestInteger(int[] nums, int k) {
+        int n = nums.length;
+        int ans = -1;
+        // condition 1, whole array is sub array so find max 
+        if(k == n){
+            for(int i = 0; i < n; i++){
+                ans = Math.max(ans, nums[i]);
+            }
+            return ans;
+        }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < n; i++){
+            map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
+        }
+        
+        // condition 2, means every element is sub array
+        if(k == 1){
+            for(int i = 0; i < n; i++){
+                if(map.get(nums[i]) == 1){
+                    ans = Math.max(nums[i], ans);
+                }
+            }
+            return ans;
+        }
+        // condition 3
+        // for k < n, only first and last elements
+        // can belong to exactly one subarray
+        if(map.get(nums[0]) == 1){
+            ans = Math.max(ans, nums[0]);
+        }
+        if(map.get(nums[n-1]) == 1){
+            ans = Math.max(ans, nums[n-1]);
+        }
+        return ans;
+    }
+}
+
+// Approach 2 ----------------------------------------------------------(BEST TC = 1ms)
+class Solution {
+    public int largestInteger(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+        // condition 1, whole array is sub array so find max 
+        if(k == n){
+            for(int i = 0; i < n; i++){
+                res = Math.max(res, nums[i]);
+            }
+            return res;
+        }
+        
+        int freq[] = new int[51];
+        // count frequency of every element
+        for(int num : nums){
+            freq[num]++;
+        }
+        // condition 2, if every element is sub array
+        if (k == 1) {
+            // starts from greater element 
+            for (int i = 50; i >= 0; --i) {
+                if (freq[i] == 1) {
+                    // return first greater element 
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        // condition 3: only first and last element
+        // can appear in exactly one subarray
+        int ans = -1;
+        if (freq[nums[0]] == 1) {
+            ans = Math.max(ans, nums[0]);
+        }
+        if (freq[nums[n - 1]] == 1) {
+            ans = Math.max(ans, nums[n - 1]);
+        }
+        return ans;
+    }
+}
