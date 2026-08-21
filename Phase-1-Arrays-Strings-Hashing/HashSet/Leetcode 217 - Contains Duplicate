@@ -1,4 +1,4 @@
-// Approach 1 --------------------------------------------
+// Approach 1 --------------------------------------------(TC = 25ms)
 class Solution {
     public boolean containsDuplicate(int nums[]) {
         Arrays.sort(nums);
@@ -10,7 +10,7 @@ class Solution {
         return false;
     }
 }
-// Approach 2 ----------------------------------(BEST APPROACH)
+// Approach 2 ----------------------------------(TC = 18ms)
 class Solution {
     public boolean containsDuplicate(int nums[]) {
         HashMap<Integer, Integer> map = new HashMap();
@@ -20,6 +20,20 @@ class Solution {
             }
             else{
                 map.put(nums[i], i);
+            }
+        }
+        return false;
+    }
+}
+
+// Approach 3 -----------------------------------------------(BEST TC = 13ms)
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        HashSet<Integer> map = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            // check and add on same time
+            if(!map.add(nums[i])){
+                return true;
             }
         }
         return false;
