@@ -1,0 +1,22 @@
+class Solution {
+    public boolean checkDivisibility(int n) {
+        int prod = 1;
+        int val  = n;
+        int sum = 0;
+        while(n != 0){
+            int digit = n%10; //take last digit of n 
+            // cal. product 
+            prod *= digit;
+            // cal. sum
+            sum += digit;
+            // remove last digit from n
+            n /= 10;
+        }
+        int res = prod + sum;
+        // Check Divisibility by Digit Sum and Product
+        if(val % res == 0){
+            return true;
+        }
+        return false;
+    }
+}
