@@ -1,0 +1,18 @@
+class Solution {
+    public int missingMultiple(int[] nums, int k) {
+        HashSet<Integer> set = new HashSet<>();
+        // add all element to hashset
+        for(int i = 0; i < nums.length; i++){
+            set.add(nums[i]);
+        }
+        int num = k;
+        for(int i = 0; i < nums.length; i++){
+            // check that num present in set
+            if(set.contains(num)){
+                // if present than +k
+                num += k;
+            }
+        }
+        return num;
+    }
+}
