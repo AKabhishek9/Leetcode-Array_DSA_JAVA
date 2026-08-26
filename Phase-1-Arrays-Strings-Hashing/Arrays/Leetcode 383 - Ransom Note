@@ -1,0 +1,40 @@
+// Approach 1 ----------------------------------------------------------------(TC = 3ms)
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int freq[] = new int[26];
+        // count characters in magazine
+        for(int i = 0; i < magazine.length(); i++){
+            freq[magazine.charAt(i)-'a']++;
+        }
+        // use characters for ransomNote
+        for(int i = 0; i < ransomNote.length(); i++){
+            // character is not available
+            if(freq[ransomNote.charAt(i)-'a'] == 0){
+                return false;
+            }
+            freq[ransomNote.charAt(i)-'a']--;
+        }
+        return true;
+    }
+}
+
+// Approach 2 -----------------------------------------------------------------(BEST TC = 1ms)
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int freq[] = new int[26];
+        // count characters in magazine
+        for(int i = 0; i < magazine.length(); i++){
+            freq[magazine.charAt(i)-'a']++;
+        }
+        // use characters for ransomNote
+        for(int i = 0; i < ransomNote.length(); i++){
+            // remove char count from the array
+            freq[ransomNote.charAt(i)-'a']--;
+            // if current char count is -ve 
+            if(freq[ransomNote.charAt(i)-'a'] < 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
