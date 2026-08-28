@@ -1,0 +1,30 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        String[] word=s.split("\\s+");
+        // length not match
+        if(pattern.length()!=word.length){
+            return false;
+        }
+        HashMap<Character, String> map1 = new HashMap<>();
+        HashMap<String, Character> map2 = new HashMap<>();
+
+        for(int i=0;i<pattern.length();i++){
+            char ch=pattern.charAt(i);
+            String str = word[i];
+            // check if character is already mapped to a different word
+            if(map1.containsKey(ch) && !map1.get(ch).equals(str)){
+                return false;
+            }
+            // check if word is already mapped to a different character
+            if(map2.containsKey(str) && map2.get(str) != ch){
+                return false;
+            }
+            // store character -> word mapping
+            map1.put(ch, str);
+
+            // store word -> character mapping
+            map2.put(str, ch);
+        }
+        return true;
+    }
+}
