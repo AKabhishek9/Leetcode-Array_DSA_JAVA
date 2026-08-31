@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean check(TreeNode root, long minVal, long maxVal){
+        if(root == null){
+            return true;
+        }
+        // check that the current node is outside the range or not
+        if(root.val <= minVal || root.val >= maxVal){
+            return false;
+        }
+        // recursively check left and right node
+        // left subtree contains smaller values
+        boolean left = check(root.left, minVal, root.val);
+        // right subtree contains greater values
+        boolean right = check(root.right, root.val, maxVal);
+
+        return left&&right;
+    }
+    public boolean isValidBST(TreeNode root) {
+        return check(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+}
