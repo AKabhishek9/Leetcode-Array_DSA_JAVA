@@ -33,3 +33,29 @@ class Solution {
         return list.get(k-1);
     }
 }
+
+// Approach 2 ----------------------------------------------------------------(BEST TC = 0ms)
+class Solution {
+    int cnt = 0;
+    public int dfs(TreeNode root, int k){
+        if(root == null){
+            return -1;
+        }
+        // Use Inorder traversal to store values in seq.
+        // visit left first
+        int left = dfs(root.left, k);
+        // kth element already found
+        if(left != -1){
+            return left;
+        }
+        cnt++;
+        if(cnt == k){
+            return root.val;
+        }
+        // visit right subtree
+        return dfs(root.right, k);
+    }
+    public int kthSmallest(TreeNode root, int k) {
+        return dfs(root, k);
+    }
+}
