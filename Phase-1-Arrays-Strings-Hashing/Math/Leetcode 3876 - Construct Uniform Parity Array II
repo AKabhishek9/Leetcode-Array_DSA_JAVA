@@ -1,0 +1,44 @@
+// Approach 1 -------------------------------------------------------------------(TC = 9ms)
+class Solution {
+    public boolean uniformArray(int[] nums1) {
+        int max = Integer.MAX_VALUE;
+        // Find the smallest odd number
+        for (int i : nums1) {
+            if (i % 2 == 1) {
+                max = Math.min(max, i);
+            }
+        }
+        // If an even number is smaller than the smallest odd,
+        // it cannot be converted to odd.
+        for (int i : nums1) {
+            if (i % 2 == 0 && max != Integer.MAX_VALUE && i < max) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+// Approach 2 --------------------------------------------------------------------(BEST TC = 2ms)
+class Solution {
+    public boolean uniformArray(int[] nums1) {
+        int min = Integer.MAX_VALUE;
+        // Find the smallest element 
+        for(int num : nums1){
+            min = Math.min(min, num);
+        }
+        // If the smallest element is odd
+        // make the array uniform
+        if(min % 2 == 1){
+            return true;
+        }
+        // If smallest element is even, other elements are also even
+        for(int num : nums1){
+            // An odd element cannot be made uniform when the minimum is even
+            if(num % 2 == 1){
+                return false;
+            }
+        }
+        return true;
+    }
+}
