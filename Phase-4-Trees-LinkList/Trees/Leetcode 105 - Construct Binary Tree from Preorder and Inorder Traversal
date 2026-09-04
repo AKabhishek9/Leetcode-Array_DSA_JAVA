@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int idx = 0;
+    private TreeNode dfs(int[] preorder, int[] inorder, int st, int end){
+        if(st > end){
+            return null;
+        }
+        // take the root from the preOrder
+        TreeNode root = new TreeNode(preorder[idx]);
+
+        int mid = st;
+        // find the root val. in inOrder
+        while(inorder[mid] != root.val){
+            mid++;
+        }
+        idx++;
+        // separate the left subtree and build recursively
+        root.left = dfs(preorder, inorder, st, mid-1);
+        // separate the left subtree and build recursively
+        root.right = dfs(preorder, inorder, mid+1, end);
+        return root;
+    }
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return dfs(preorder, inorder, 0, preorder.length-1);
+    }
+}
