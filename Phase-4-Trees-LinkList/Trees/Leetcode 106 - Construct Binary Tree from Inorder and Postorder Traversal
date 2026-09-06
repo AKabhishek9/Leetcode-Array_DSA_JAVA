@@ -1,0 +1,26 @@
+class Solution {
+    int idx;
+    private TreeNode dfs(int[] inorder, int[] postorder, int st, int end){
+        if(st > end){
+            return null;
+        }
+        // Take the root from the end of postorder
+        TreeNode root = new TreeNode(postorder[idx]);
+        int mid = st;
+        // Find the root value in inorder
+        while(inorder[mid] != root.val){
+            mid++;
+        }
+        idx--;
+        // Build the right subtree first
+        root.right = dfs(inorder, postorder, mid + 1, end);
+        // Build the left subtree
+        root.left = dfs(inorder, postorder, st, mid - 1);
+        return root;
+    }
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        idx = postorder.length - 1;
+        return dfs(inorder, postorder, 0, inorder.length - 1);
+    }
+}
